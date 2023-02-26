@@ -4,5 +4,5 @@
 
 ### Branches
 
-development - for feature development
-main - for production release
+**development** - for feature development  
+**main** - for production release
