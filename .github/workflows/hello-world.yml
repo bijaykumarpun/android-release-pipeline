@@ -1,3 +1,6 @@
+name: 'Print hello world'
+on:
+  push:
 uses: actions/hello-world-javascript-action@main
 with:
   who-to-greet: 'Mona the Octocat'
