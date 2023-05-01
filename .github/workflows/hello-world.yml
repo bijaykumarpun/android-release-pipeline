@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is printing hello world
 on: [push]
 jobs:
   print-hello-world:
-    runs-on: ubunti-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/hello-world-javascript-action@main
         with:
