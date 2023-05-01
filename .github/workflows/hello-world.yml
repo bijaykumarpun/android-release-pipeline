@@ -5,6 +5,7 @@ jobs:
   print-hello-world:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/hello-world-javascript-action@main
+#      - uses: actions/hello-world-javascript-action@main
+      - uses: ./ #now using action from root directory i.e. action.yml
         with:
           who-to-greet: 'Mona the Octocat'
