@@ -1,9 +1,8 @@
 name: 'Print hello world'
-on:
-  push:
-
+run-name: ${{ github.actor }} is printing hello world
+on: [push]
 jobs:
   print-hello-world:
-    uses: actions/hello-world-javascript-action@main
-    with:
-    who-to-greet: 'Mona the Octocat'
+    - uses: actions/hello-world-javascript-action@main
+      with:
+       who-to-greet: 'Mona the Octocat'
