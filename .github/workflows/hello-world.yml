@@ -6,6 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 #      - uses: actions/hello-world-javascript-action@main
-      - uses: ./ #now using action from root directory i.e. action.yml
+      #in order to use this repository's private action, we need to check out of this repository
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Hello world action step
+        uses: ./ #now using action from root directory i.e. action.yml
+        id: myid
         with:
           who-to-greet: 'Mona the Octocat'
+      - name: Test output data
+        run: echo "The time is ${{ steps.myid.outputs.time }}"
