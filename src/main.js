@@ -25,7 +25,7 @@ core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS",serviceAccountJson);
 const auth = new google.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
-await androidPublisher.internalappsharingartifacts.uploadapk(
+ androidPublisher.internalappsharingartifacts.uploadapk(
 {
         auth: auth,
         packageName:packageName,

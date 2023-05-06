@@ -9792,13 +9792,43 @@ var __webpack_exports__ = {};
 
 const core = __nccwpck_require__(9935);
 const github = __nccwpck_require__(2835);
+const fs = __nccwpck_require__(7147);
 
-try{
-const name = core.getInput('who-to-greet');
-console.log(`Hello ${name}`);
+//try{
+//const name = core.getInput('who-to-greet');
+//console.log(`Hello ${name}`);
+//
+//const time = (new Date()).toTimeString();
+//core.setOutput("time",time);
+//} catch (error){
+//core.setFailed(error.message);
+//}
 
-const time = (new Date()).toTimeString();
-core.setOutput("time",time);
+try {
+
+const serviceAccountJson = core.getInput('serviceAccountJson');
+const packageName = core.getInput('packageName');
+const releaseFileDir = core.getInput('releaseFileDir');
+//const track = core.getInput('track');
+//const mappingFileDir = core.getInput('mappingFileDir');
+
+core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS",serviceAccountJson);
+const auth = new google.auth.GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/androidpublisher']
+    });
+ androidPublisher.internalappsharingartifacts.uploadapk(
+{
+        auth: auth,
+        packageName:packageName,
+        media: {
+            mimeType: 'application/octet-stream',
+            body: fs.createReadStream(releaseFileDir)
+        }
+    }
+);
+
+
+
 } catch (error){
 core.setFailed(error.message);
 }
