@@ -1,20 +1,8 @@
 import * as publisherApi from '@googleapis/androidpublisher';
 
 const core = require('@actions/core');
-const github = require('@actions/github');
 const fs = require('fs');
 const androidPublisher = publisherApi.androidpublisher('v3');
-
-
-//try{
-//const name = core.getInput('who-to-greet');
-//console.log(`Hello ${name}`);
-//
-//const time = (new Date()).toTimeString();
-//core.setOutput("time",time);
-//} catch (error){
-//core.setFailed(error.message);
-//}
 
 try {
 
@@ -27,7 +15,21 @@ console.log("Log test"+ serviceAccountJson);
 console.log("Log test" + packageName);
 console.log("Log test" + releaseFileDir);
 
-core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS",serviceAccountJson);
+    fs.open("serviceAccountJson.json", "a", (err, fd) => {
+        if (err) {
+            console.log("Can't open file");
+        } else {
+            fs.write(fd, serviceAccountJson, 0, serviceAccountJson.length, null, (err, writtenBytes) => {
+                if (err) {
+                    console.log("Can't write to file");
+                } else {
+                    console.log("${writtenBytes} added")
+                }
+            })
+        }
+    });
+
+    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", "./serviceAccountJson.json");
 const auth = new publisherApi.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
