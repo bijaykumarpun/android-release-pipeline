@@ -57556,35 +57556,21 @@ const releaseFileDir = core.getInput('releaseFileDir');
         }
     });
 
-    // fs.open(serviceAccountFile, "w", function (err, fd) {
-    //     if (err) {
-    //         console.log("Can't open file");
-    //     } else {
-    //         console.log("Writing to file");
-    //         fs.writeFile(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
-    //             if (err) {
-    //                 console.log("Can't write to file");
-    //             } else {
-    //                 console.log("${writtenBytes} added")
-    //             }
-    //         })
-    //     }
-    // });
-
     core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
-const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
+    const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
-//  androidPublisher.internalappsharingartifacts.uploadapk(
-// {
-//         auth: auth,
-//         packageName:packageName,
-//         media: {
-//             mimeType: 'application/octet-stream',
-//             body: fs.createReadStream(releaseFileDir)
-//         }
-//     }
-// );
+
+    androidPublisher.internalappsharingartifacts.uploadapk(
+        {
+            auth: auth,
+            packageName: packageName,
+            media: {
+                mimeType: 'application/vnd.android.package-archive',
+                body: fs.createReadStream(releaseFileDir)
+            }
+        }
+    );
 
 
 
