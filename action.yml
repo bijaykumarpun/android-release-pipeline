@@ -1,13 +1,23 @@
 name: 'Hello World V2'
 description: 'Greet using action from the same repository'
 inputs:
-  who-to-greet: #id of input
-    description: 'Who to greet'
+  packageName: #id of input
+    description: 'Application package name'
     required: true
-    default: 'World'
-outputs:
-  time: #id of output
-    description: 'The time we greeted you'
+  serviceAccountJson:
+    description: 'Service account JSON file content'
+    required: true
+  releaseFileDir:
+    description: 'Release file directory'
+    required: true
+  track:
+    description: 'Track'
+    required: false
+  mappingFileDir:
+    description: 'Mapping file directory'
+    required: false
+
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
