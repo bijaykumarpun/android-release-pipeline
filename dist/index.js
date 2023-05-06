@@ -60507,6 +60507,9 @@ const packageName = core.getInput('packageName');
 const releaseFileDir = core.getInput('releaseFileDir');
 //const track = core.getInput('track');
 //const mappingFileDir = core.getInput('mappingFileDir');
+console.log("Log test"+ serviceAccountJson);
+console.log("Log test" + packageName);
+console.log("Log test" + releaseFileDir);
 
 core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS",serviceAccountJson);
 const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
