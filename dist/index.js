@@ -57554,7 +57554,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
             console.log("Can't open file");
         } else {
             console.log("Writing to file");
-            fs.write(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
+            fs.writeFile(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
                 if (err) {
                     console.log("Can't write to file");
                 } else {

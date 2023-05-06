@@ -4,18 +4,23 @@ inputs:
   packageName: #id of input
     description: 'Application package name'
     required: true
+    default: 'com.example.app'
   serviceAccountJson:
     description: 'Service account JSON file content'
     required: true
+    default: '{}'
   releaseFileDir:
     description: 'Release file directory'
     required: true
+    default: './'
   track:
     description: 'Track'
     required: false
+    default: 'internalSharing'
   mappingFileDir:
     description: 'Mapping file directory'
     required: false
+    default: './'
 
 
 runs:
