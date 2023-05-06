@@ -57274,10 +57274,13 @@ try {
 __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1063);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 const core = __nccwpck_require__(9935);
-const fs = (__nccwpck_require__(7147).promises);
+// const fs = require('fs').promises;
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
 
 try {
@@ -57292,7 +57295,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
     // console.log("Log test" + releaseFileDir);
 
     const serviceAccountFile = "serviceAccountJson.json";
-    await fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
+    await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
             console.log('Error');
         } else {
@@ -57311,7 +57314,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
             packageName: packageName,
             media: {
                 mimeType: 'application/vnd.android.package-archive',
-                body: fs.createReadStream(releaseFileDir)
+                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
             }
         }
     );
@@ -57634,6 +57637,35 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 			}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
 /******/ 			queue && (queue.d = 0);
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */

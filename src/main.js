@@ -1,7 +1,8 @@
 import * as publisherApi from '@googleapis/androidpublisher';
+import { promises as fs, createReadStream } from 'fs';
 
 const core = require('@actions/core');
-const fs = require('fs').promises;
+// const fs = require('fs').promises;
 const androidPublisher = publisherApi.androidpublisher('v3');
 
 try {
@@ -35,7 +36,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
             packageName: packageName,
             media: {
                 mimeType: 'application/vnd.android.package-archive',
-                body: fs.createReadStream(releaseFileDir)
+                body: createReadStream(releaseFileDir)
             }
         }
     );
