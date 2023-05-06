@@ -21,7 +21,8 @@ const releaseFileDir = core.getInput('releaseFileDir');
         if (err) {
             console.log("Can't open file");
         } else {
-            fs.write(fd, serviceAccountJson, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
+            console.log("Writing to file");
+            fs.write(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
                 if (err) {
                     console.log("Can't write to file");
                 } else {
