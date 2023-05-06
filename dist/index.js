@@ -57547,11 +57547,11 @@ console.log("Log test"+ serviceAccountJson);
 console.log("Log test" + packageName);
 console.log("Log test" + releaseFileDir);
 
-    fs.open("serviceAccountJson.json", "a", (err, fd) => {
+    fs.open("serviceAccountJson.json", "w", function (err, fd) {
         if (err) {
             console.log("Can't open file");
         } else {
-            fs.write(fd, serviceAccountJson, 0, serviceAccountJson.length, null, (err, writtenBytes) => {
+            fs.write(fd, serviceAccountJson, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
                 if (err) {
                     console.log("Can't write to file");
                 } else {
