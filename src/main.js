@@ -16,21 +16,28 @@ const releaseFileDir = core.getInput('releaseFileDir');
     // console.log("Log test" + releaseFileDir);
 
     const serviceAccountFile = "./serviceAccountJson.json";
-
-    fs.open(serviceAccountFile, "w", function (err, fd) {
+    fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
-            console.log("Can't open file");
+            console.log('Error');
         } else {
-            console.log("Writing to file");
-            fs.writeFile(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
-                if (err) {
-                    console.log("Can't write to file");
-                } else {
-                    console.log("${writtenBytes} added")
-                }
-            })
+            console.log('Successfully written');
         }
     });
+
+    // fs.open(serviceAccountFile, "w", function (err, fd) {
+    //     if (err) {
+    //         console.log("Can't open file");
+    //     } else {
+    //         console.log("Writing to file");
+    //         fs.writeFile(fd, serviceAccountFile, 0, serviceAccountJson.length, null, function (err, writtenBytes) {
+    //             if (err) {
+    //                 console.log("Can't write to file");
+    //             } else {
+    //                 console.log("${writtenBytes} added")
+    //             }
+    //         })
+    //     }
+    // });
 
     core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 const auth = new publisherApi.auth.GoogleAuth({
