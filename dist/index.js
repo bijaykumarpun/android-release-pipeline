@@ -57575,16 +57575,16 @@ const releaseFileDir = core.getInput('releaseFileDir');
 const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
- androidPublisher.internalappsharingartifacts.uploadapk(
-{
-        auth: auth,
-        packageName:packageName,
-        media: {
-            mimeType: 'application/octet-stream',
-            body: fs.createReadStream(releaseFileDir)
-        }
-    }
-);
+//  androidPublisher.internalappsharingartifacts.uploadapk(
+// {
+//         auth: auth,
+//         packageName:packageName,
+//         media: {
+//             mimeType: 'application/octet-stream',
+//             body: fs.createReadStream(releaseFileDir)
+//         }
+//     }
+// );
 
 
 
