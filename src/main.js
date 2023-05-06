@@ -1,7 +1,10 @@
+import * as publisherApi from '@googleapis/androidpublisher';
 
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
+const androidPublisher = publisherApi.androidpublisher('v3');
+
 
 //try{
 //const name = core.getInput('who-to-greet');
@@ -22,7 +25,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
 //const mappingFileDir = core.getInput('mappingFileDir');
 
 core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS",serviceAccountJson);
-const auth = new google.auth.GoogleAuth({
+const auth = new publisherApi.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
  androidPublisher.internalappsharingartifacts.uploadapk(
