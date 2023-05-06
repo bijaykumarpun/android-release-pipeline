@@ -29,7 +29,7 @@ console.log("Log test" + releaseFileDir);
         }
     });
 
-    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", "./serviceAccountJson.json");
+    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountJson);
 const auth = new publisherApi.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });

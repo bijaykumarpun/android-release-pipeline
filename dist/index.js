@@ -57561,7 +57561,7 @@ console.log("Log test" + releaseFileDir);
         }
     });
 
-    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", "./serviceAccountJson.json");
+    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountJson);
 const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
