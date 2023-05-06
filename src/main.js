@@ -1,7 +1,7 @@
 import * as publisherApi from '@googleapis/androidpublisher';
 
 const core = require('@actions/core');
-const fs = require('fs');
+const fs = require('fs').promises;
 const androidPublisher = publisherApi.androidpublisher('v3');
 
 try {
@@ -16,7 +16,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
     // console.log("Log test" + releaseFileDir);
 
     const serviceAccountFile = "serviceAccountJson.json";
-    fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
+    await fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
             console.log('Error');
         } else {
