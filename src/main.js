@@ -11,11 +11,13 @@ const packageName = core.getInput('packageName');
 const releaseFileDir = core.getInput('releaseFileDir');
 //const track = core.getInput('track');
 //const mappingFileDir = core.getInput('mappingFileDir');
-console.log("Log test"+ serviceAccountJson);
-console.log("Log test" + packageName);
-console.log("Log test" + releaseFileDir);
+    // console.log("Log test"+ serviceAccountJson);
+    // console.log("Log test" + packageName);
+    // console.log("Log test" + releaseFileDir);
 
-    fs.open("serviceAccountJson.json", "w", function (err, fd) {
+    const serviceAccountFile = "./serviceAccountJson.json";
+
+    fs.open(serviceAccountFile, "w", function (err, fd) {
         if (err) {
             console.log("Can't open file");
         } else {
@@ -29,7 +31,7 @@ console.log("Log test" + releaseFileDir);
         }
     });
 
-    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountJson);
+    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 const auth = new publisherApi.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
