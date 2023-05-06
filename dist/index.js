@@ -57547,7 +57547,7 @@ const releaseFileDir = core.getInput('releaseFileDir');
     // console.log("Log test" + packageName);
     // console.log("Log test" + releaseFileDir);
 
-    const serviceAccountFile = "./serviceAccountJson.json";
+    const serviceAccountFile = "serviceAccountJson.json";
     fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
             console.log('Error');
