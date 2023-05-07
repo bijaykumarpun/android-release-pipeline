@@ -57685,7 +57685,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         apkVersionCode: versionCode,
         deobfuscationFileType: 'proguard',
         media: {
-            mimeType: 'application/octet-sctream',
+            mimeType: 'application/octet-stream',
             body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(mappingFileDir)
         }
     });
