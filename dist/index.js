@@ -57714,7 +57714,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                             language: 'en-US',
                             text: 'This is a test release note'
                         }],
-                        versionCode: [versionCode]
+                        versionCodes: [versionCode.toString()]
                     }
                 }
 
