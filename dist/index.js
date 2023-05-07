@@ -57650,7 +57650,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         const res = await androidPublisher.edits.apks.upload({
             auth: auth,
             packageName: packageName,
-            editId: editResult.id,
+            editId: editResult.data.id,
             media: {
                 mimeType: 'application/vnd.android.package-archive',
                 body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
@@ -57664,7 +57664,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         const res = await androidPublisher.edits.bundles.upload({
             auth: auth,
             packageName: packageName,
-            editId: editResult.id,
+            editId: editResult.data.id,
             media: {
                 mimeType: 'application/octed-stream',
                 body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
@@ -57681,7 +57681,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
     const fileUploadResult = await androidPublisher.edits.deobfuscationfiles.upload({
         auth: auth,
         packageName: packageName,
-        editId: editResult.id,
+        editId: editResult.data.id,
         versionCode: versionCode,
         deobfuscationFileType: 'proguard',
         media: {
@@ -57697,7 +57697,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         await androidPublisher.edits.tracks.update(
             {
                 auth: auth,
-                editId: editResult.id,
+                editId: editResult.data.id,
                 packageName: packageName,
                 track: 'production',
                 releases: [
@@ -57720,7 +57720,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
     //finally commit
     const commitResult = await androidPublisher.edits.commit({
         auth: auth,
-        editId: editResult.id,
+        editId: editResult.data.id,
         packageName: packageName,
         changesNotSentForReview: true
     })
