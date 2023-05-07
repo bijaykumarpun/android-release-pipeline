@@ -57564,13 +57564,10 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 
-
 const core = __nccwpck_require__(9935);
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
-// const ReleaseTrack = require("./release_tracks");
 
 async function init() {
-
 
 try {
 
@@ -57580,15 +57577,14 @@ try {
     const releaseFileDir = core.getInput('releaseFileDir');
     const releaseTrack = core.getInput('track');
     const mappingFileDir = core.getInput('mappingFileDir');
-
-
     const serviceAccountFile = "serviceAccountJson.json";
+
     await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
-            core.setOutput('Error writing service account credential');
+            core.info('Error writing service account credential');
             console.log('Error');
         } else {
-            core.setOutput('Successfully written service account credential');
+            core.info('Successfully written service account credential');
             console.log('Successfully written');
         }
     });
@@ -57609,11 +57605,10 @@ try {
 
     }
 
-
-
 } catch (error) {
     core.setFailed(error.message);
 }
+
 }
 
 async function uploadToInternalSharing(auth, packageName, releaseFileDir) {
@@ -57628,9 +57623,9 @@ async function uploadToInternalSharing(auth, packageName, releaseFileDir) {
         }
     );
     const downloadUrl = uploadResult.data.downloadUrl;
-    // if(uploadResult.data.download)
+
     console.log(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
-    core.setOutput(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
+    core.info(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
 }
 
 async function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
@@ -57642,7 +57637,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         auth: auth,
         packageName: packageName
     });
-    core.setOutput(`Edit Id ${editResult.data.id}`);
+    core.info(`Edit Id ${editResult.data.id}`);
     console.log(`Edit Id ${editResult.data.id}`);
 
     //Upload release files
@@ -57658,7 +57653,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         });
         versionCode = res.data.versionCode;
         console.log(`Version Code ${versionCode}`);
-        core.setOutput(`Version Code ${versionCode}`)
+        core.info(`Version Code ${versionCode}`)
 
     } else if (releaseFileDir.endsWith('.aab')) {
         const res = await androidPublisher.edits.bundles.upload({
@@ -57673,7 +57668,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         });
         versionCode = res.data.versionCode;
         console.log(`Version Code ${versionCode}`);
-        core.setOutput(`Version Code ${versionCode}`)
+        core.info(`Version Code ${versionCode}`)
 
     } else Error('invalid release file');
 
@@ -57712,7 +57707,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                         inAppUpdatePriority: 5,
                         releaseNotes: [{
                             language: 'en-US',
-                            text: 'This is a test release note'
+                            text: ''
                         }],
                         versionCodes: [versionCode.toString()]
                     }
@@ -57731,8 +57726,6 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
     })
 
 }
-
-
 
 
 init();
