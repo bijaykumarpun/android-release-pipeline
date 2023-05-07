@@ -64,7 +64,7 @@ function uploadToInternalSharing(auth, packageName, releaseFileDir) {
 }
 
 function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
-    const versionCode = null;
+    var versionCode = null;
 
 
     //Create an Edit
@@ -72,6 +72,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         auth: auth,
         packageName: packageName
     });
+    console.log(`Edit Id ${editResult.data.id}`);
 
     //Upload release files
     if (releaseFileDir.endsWith('.apk')) {
@@ -85,6 +86,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
             }
         });
         versionCode = res.data.versionCode;
+        console.log(`Version Code ${versionCode}`);
 
     } else if (releaseFileDir.endsWith('.aab')) {
         const res = androidpublisher.edits.bundles.upload({
@@ -98,6 +100,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
             }
         });
         versionCode = res.data.versionCode;
+        console.log(`Version Code ${versionCode}`);
 
     } else Error('invalid release file');
 
