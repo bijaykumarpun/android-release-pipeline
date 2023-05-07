@@ -1,26 +1,30 @@
-name: 'Hello World V2'
-description: 'Greet using action from the same repository'
+name: 'Release to PlayStore'
+description: 'GitHub Action to release android app to PlayStore'
+author: 'bijaykumarpun'
+branding: 
+  icon: 'package'
+  color: 'purple'
 inputs:
-  packageName: #id of input
+  packageName:
     description: 'Application package name'
     required: true
-    default: 'com.example.app'
+    # default: 'com.example.app'
   serviceAccountJson:
     description: 'Service account JSON file content'
     required: true
-    default: '{}'
+    # default: '{}'
   releaseFileDir:
     description: 'Release file directory'
     required: true
-    default: './'
+    # default: './'
   track:
-    description: 'Track'
+    description: 'Release track'
     required: false
-    default: 'internalSharing'
+    # default: 'internalSharing'
   mappingFileDir:
     description: 'Mapping file directory'
     required: false
-    default: './'
+    # default: './'
 
 
 runs:
