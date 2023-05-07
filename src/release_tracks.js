@@ -6,3 +6,5 @@ const ReleaseTrack = {
     PRODUCTION: 'production'
 
 }
+
+exports.ReleaseTrack = ReleaseTrack;

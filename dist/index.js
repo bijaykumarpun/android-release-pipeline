@@ -57276,8 +57276,6 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1063);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2037);
-/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(os__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -57285,6 +57283,7 @@ __nccwpck_require__.r(__webpack_exports__);
 
 const core = __nccwpck_require__(9935);
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
+const ReleaseTrack = __nccwpck_require__(6756);
 
 try {
 
@@ -57437,6 +57436,22 @@ function uploadToProduction(auth, packageName, track, releaseName, releaseFileDi
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
+
+/***/ }),
+
+/***/ 6756:
+/***/ ((__unused_webpack_module, exports) => {
+
+const ReleaseTrack = {
+    INTERNAL_SHARING: 'internalSharing',
+    ALPHA: 'alpha',
+    BETA: 'beta',
+    QA: 'qa',
+    PRODUCTION: 'production'
+
+}
+
+exports.ReleaseTrack = ReleaseTrack;
 
 /***/ }),
 
