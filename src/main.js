@@ -81,7 +81,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
             editId: editResult.id,
             media: {
                 mimeType: 'application/vnd.android.package-archive',
-                body: fs.createReadStream(releaseFileDir)
+                body: createReadStream(releaseFileDir)
             }
         });
         versionCode = res.data.versionCode;
@@ -93,7 +93,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
             editId: editResult.id,
             media: {
                 mimeType: 'application/octed-stream',
-                body: fs.createReadStream(releaseFileDir)
+                body: createReadStream(releaseFileDir)
 
             }
         });
@@ -110,7 +110,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         deobfuscationFileType: 'proguard',
         media: {
             mimeType: 'application/octed-sctream',
-            body: fs.createReadStream(mappingFileDir)
+            body: createReadStream(mappingFileDir)
         }
     });
 
