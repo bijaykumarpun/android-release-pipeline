@@ -57682,7 +57682,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         auth: auth,
         packageName: packageName,
         editId: editResult.data.id,
-        versionCode: versionCode,
+        apkVersionCode: versionCode,
         deobfuscationFileType: 'proguard',
         media: {
             mimeType: 'application/octed-sctream',
