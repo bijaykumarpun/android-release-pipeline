@@ -57276,23 +57276,24 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1063);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2037);
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(os__WEBPACK_IMPORTED_MODULE_2__);
+
+
 
 
 
 const core = __nccwpck_require__(9935);
-// const fs = require('fs').promises;
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
 
 try {
 
-const serviceAccountJson = core.getInput('serviceAccountJson');
-const packageName = core.getInput('packageName');
-const releaseFileDir = core.getInput('releaseFileDir');
-//const track = core.getInput('track');
-//const mappingFileDir = core.getInput('mappingFileDir');
-    // console.log("Log test"+ serviceAccountJson);
-    // console.log("Log test" + packageName);
-    // console.log("Log test" + releaseFileDir);
+    //Base setup
+    const serviceAccountJson = core.getInput('serviceAccountJson');
+    const packageName = core.getInput('packageName');
+    const releaseFileDir = core.getInput('releaseFileDir');
+    const releaseTrack = core.getInput('releaseTrack');
+    const mappingFileDir = core.getInput('mappingFileDir');
 
     const serviceAccountFile = "serviceAccountJson.json";
     await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
@@ -57308,6 +57309,22 @@ const releaseFileDir = core.getInput('releaseFileDir');
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
     });
 
+    switch (releaseTrack) {
+        case ReleaseTrack.INTERNAL_SHARING:
+            uploadToInternalSharing(auth, packageName, releaseFileDir);
+
+        case ReleaseTrack.PRODUCTION:
+            uploadToProduction(auth, packageName, releaseFileDir, mappingFileDir);
+
+    }
+
+
+
+} catch (error) {
+    core.setFailed(error.message);
+}
+
+function uploadToInternalSharing(auth, packageName, releaseFileDir) {
     androidPublisher.internalappsharingartifacts.uploadapk(
         {
             auth: auth,
@@ -57318,12 +57335,103 @@ const releaseFileDir = core.getInput('releaseFileDir');
             }
         }
     );
-
-
-
-} catch (error){
-core.setFailed(error.message);
 }
+
+function uploadToProduction(auth, packageName, track, releaseName, releaseFileDir, mappingFileDir) {
+    const versionCode = null;
+
+
+    //Create an Edit
+    const editResult = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.insert */ .yf.edits.insert({
+        auth: auth,
+        packageName: packageName
+    });
+
+    //Upload release files
+    if (releaseFileDir.endsWith('.apk')) {
+        const res = androidPublisher.edits.apks.upload({
+            auth: auth,
+            packageName: packageName,
+            editId: editResult.id,
+            media: {
+                mimeType: 'application/vnd.android.package-archive',
+                body: fs__WEBPACK_IMPORTED_MODULE_1__.promises.createReadStream(releaseFileDir)
+            }
+        });
+        versionCode = res.data.versionCode;
+
+    } else if (releaseFileDir.endsWith('.aab')) {
+        const res = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.bundles.upload */ .yf.edits.bundles.upload({
+            auth: auth,
+            packageName: packageName,
+            editId: editResult.id,
+            media: {
+                mimeType: 'application/octed-stream',
+                body: fs__WEBPACK_IMPORTED_MODULE_1__.promises.createReadStream(releaseFileDir)
+
+            }
+        });
+        versionCode = res.data.versionCode;
+
+    } else Error('invalid release file');
+
+    //upload mapping file
+    _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.deobfuscationfiles.upload */ .yf.edits.deobfuscationfiles.upload({
+        auth: auth,
+        packageName: packageName,
+        editId: editResult.id,
+        versionCode: versionCode,
+        deobfuscationFileType: 'proguard',
+        media: {
+            mimeType: 'application/octed-sctream',
+            body: fs__WEBPACK_IMPORTED_MODULE_1__.promises.createReadStream(mappingFileDir)
+        }
+    });
+
+    //add releases to track
+    if (versionCode != null) {
+
+        _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.tracks.update */ .yf.edits.tracks.update(
+            {
+                auth: auth,
+                editId: editResult.id,
+                packageName: packageName,
+                track: track,
+                releases: [
+                    {
+                        name: releaseName,
+                        userFraction: 1,
+                        status: 'completed',
+                        inAppUpdatePriority: 5,
+                        releaseNotes: [{
+                            language: 'en-US',
+                            text: 'This is a test release note'
+                        }],
+                        versionCode: ["1.2.0"]
+                    }
+                ]
+            }
+        )
+    } else throw Error('version code is null');
+
+    //finally commit
+    const commitResult = androidPublisher.edits.commit({
+        auth: auth,
+        editId: editResult.id,
+        packageName: packageName,
+        changesNotSentForReview: true
+    })
+
+}
+
+
+
+
+
+
+
+
+
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
 
