@@ -57666,7 +57666,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
             packageName: packageName,
             editId: editResult.data.id,
             media: {
-                mimeType: 'application/octed-stream',
+                mimeType: 'application/octet-stream',
                 body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
 
             }
