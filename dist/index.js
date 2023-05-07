@@ -57292,7 +57292,7 @@ try {
     const serviceAccountJson = core.getInput('serviceAccountJson');
     const packageName = core.getInput('packageName');
     const releaseFileDir = core.getInput('releaseFileDir');
-    const releaseTrack = core.getInput('releaseTrack');
+    const releaseTrack = core.getInput('track');
     const mappingFileDir = core.getInput('mappingFileDir');
 
     const serviceAccountFile = "serviceAccountJson.json";
