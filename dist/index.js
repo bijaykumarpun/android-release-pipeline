@@ -57701,7 +57701,10 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                 packageName: packageName,
                 track: 'production',
 
-                releases: [
+                requestBody: {
+                    track: 'production',
+                    releases:
+
                     {
                         name: releaseName,
                         userFraction: 1,
@@ -57713,7 +57716,8 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                         }],
                         versionCode: [versionCode]
                     }
-                ]
+                }
+
             }
         )
     } else throw Error('version code is null');
