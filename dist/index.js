@@ -57267,183 +57267,6 @@ try {
 
 /***/ }),
 
-/***/ 5835:
-/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-__nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1063);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-
-const core = __nccwpck_require__(9935);
-const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
-// const ReleaseTrack = require("./release_tracks");
-
-try {
-
-    //Base setup
-    const serviceAccountJson = core.getInput('serviceAccountJson');
-    const packageName = core.getInput('packageName');
-    const releaseFileDir = core.getInput('releaseFileDir');
-    const releaseTrack = core.getInput('track');
-    const mappingFileDir = core.getInput('mappingFileDir');
-
-
-    const serviceAccountFile = "serviceAccountJson.json";
-    await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
-        if (err) {
-            console.log('Error');
-        } else {
-            console.log('Successfully written');
-        }
-    });
-
-    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
-    const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
-        scopes: ['https://www.googleapis.com/auth/androidpublisher']
-    });
-
-    switch (releaseTrack) {
-        // case ReleaseTrack.INTERNAL_SHARING:
-        case 'internalShring':
-            uploadToInternalSharing(auth, packageName, releaseFileDir);
-
-        // case ReleaseTrack.PRODUCTION:
-        case 'production':
-            uploadToProduction(auth, packageName, '', releaseFileDir, mappingFileDir);
-
-    }
-
-
-
-} catch (error) {
-    core.setFailed(error.message);
-}
-
-function uploadToInternalSharing(auth, packageName, releaseFileDir) {
-    const uploadResult = androidPublisher.internalappsharingartifacts.uploadapk(
-        {
-            auth: auth,
-            packageName: packageName,
-            media: {
-                mimeType: 'application/vnd.android.package-archive',
-                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
-            }
-        }
-    );
-    const downloadUrl = uploadResult.data.downloadUrl;
-    // if(uploadResult.data.download)
-    console.log("DATA:\nUpload to internal shring\nURL: $downloadUrl");
-}
-
-function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
-    var versionCode = null;
-
-
-    //Create an Edit
-    const editResult = androidPublisher.edits.insert({
-        auth: auth,
-        packageName: packageName
-    });
-    console.log(`Edit Id ${editResult.data.id}`);
-
-    //Upload release files
-    if (releaseFileDir.endsWith('.apk')) {
-        const res = androidPublisher.edits.apks.upload({
-            auth: auth,
-            packageName: packageName,
-            editId: editResult.id,
-            media: {
-                mimeType: 'application/vnd.android.package-archive',
-                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
-            }
-        });
-        versionCode = res.data.versionCode;
-        console.log(`Version Code ${versionCode}`);
-
-    } else if (releaseFileDir.endsWith('.aab')) {
-        const res = androidpublisher.edits.bundles.upload({
-            auth: auth,
-            packageName: packageName,
-            editId: editResult.id,
-            media: {
-                mimeType: 'application/octed-stream',
-                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
-
-            }
-        });
-        versionCode = res.data.versionCode;
-        console.log(`Version Code ${versionCode}`);
-
-    } else Error('invalid release file');
-
-    //upload mapping file
-    androidpublisher.edits.deobfuscationfiles.upload({
-        auth: auth,
-        packageName: packageName,
-        editId: editResult.id,
-        versionCode: versionCode,
-        deobfuscationFileType: 'proguard',
-        media: {
-            mimeType: 'application/octed-sctream',
-            body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(mappingFileDir)
-        }
-    });
-
-    //add releases to track
-    if (versionCode != null) {
-
-        androidpublisher.edits.tracks.update(
-            {
-                auth: auth,
-                editId: editResult.id,
-                packageName: packageName,
-                track: 'production',
-                releases: [
-                    {
-                        name: releaseName,
-                        userFraction: 1,
-                        status: 'completed',
-                        inAppUpdatePriority: 5,
-                        releaseNotes: [{
-                            language: 'en-US',
-                            text: 'This is a test release note'
-                        }],
-                        versionCode: ["1.2.0"]
-                    }
-                ]
-            }
-        )
-    } else throw Error('version code is null');
-
-    //finally commit
-    const commitResult = androidPublisher.edits.commit({
-        auth: auth,
-        editId: editResult.id,
-        packageName: packageName,
-        changesNotSentForReview: true
-    })
-
-}
-
-
-
-
-
-
-
-
-
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } }, 1);
-
-/***/ }),
-
 /***/ 4818:
 /***/ ((module) => {
 
@@ -57685,75 +57508,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/async module */
-/******/ 	(() => {
-/******/ 		var webpackQueues = typeof Symbol === "function" ? Symbol("webpack queues") : "__webpack_queues__";
-/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
-/******/ 		var webpackError = typeof Symbol === "function" ? Symbol("webpack error") : "__webpack_error__";
-/******/ 		var resolveQueue = (queue) => {
-/******/ 			if(queue && !queue.d) {
-/******/ 				queue.d = 1;
-/******/ 				queue.forEach((fn) => (fn.r--));
-/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
-/******/ 			}
-/******/ 		}
-/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
-/******/ 			if(dep !== null && typeof dep === "object") {
-/******/ 				if(dep[webpackQueues]) return dep;
-/******/ 				if(dep.then) {
-/******/ 					var queue = [];
-/******/ 					queue.d = 0;
-/******/ 					dep.then((r) => {
-/******/ 						obj[webpackExports] = r;
-/******/ 						resolveQueue(queue);
-/******/ 					}, (e) => {
-/******/ 						obj[webpackError] = e;
-/******/ 						resolveQueue(queue);
-/******/ 					});
-/******/ 					var obj = {};
-/******/ 					obj[webpackQueues] = (fn) => (fn(queue));
-/******/ 					return obj;
-/******/ 				}
-/******/ 			}
-/******/ 			var ret = {};
-/******/ 			ret[webpackQueues] = x => {};
-/******/ 			ret[webpackExports] = dep;
-/******/ 			return ret;
-/******/ 		}));
-/******/ 		__nccwpck_require__.a = (module, body, hasAwait) => {
-/******/ 			var queue;
-/******/ 			hasAwait && ((queue = []).d = 1);
-/******/ 			var depQueues = new Set();
-/******/ 			var exports = module.exports;
-/******/ 			var currentDeps;
-/******/ 			var outerResolve;
-/******/ 			var reject;
-/******/ 			var promise = new Promise((resolve, rej) => {
-/******/ 				reject = rej;
-/******/ 				outerResolve = resolve;
-/******/ 			});
-/******/ 			promise[webpackExports] = exports;
-/******/ 			promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
-/******/ 			module.exports = promise;
-/******/ 			body((deps) => {
-/******/ 				currentDeps = wrapDeps(deps);
-/******/ 				var fn;
-/******/ 				var getResult = () => (currentDeps.map((d) => {
-/******/ 					if(d[webpackError]) throw d[webpackError];
-/******/ 					return d[webpackExports];
-/******/ 				}))
-/******/ 				var promise = new Promise((resolve) => {
-/******/ 					fn = () => (resolve(getResult));
-/******/ 					fn.r = 0;
-/******/ 					var fnQueue = (q) => (q !== queue && !depQueues.has(q) && (depQueues.add(q), q && !q.d && (fn.r++, q.push(fn))));
-/******/ 					currentDeps.map((dep) => (dep[webpackQueues](fnQueue)));
-/******/ 				});
-/******/ 				return fn.r ? promise : getResult();
-/******/ 			}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
-/******/ 			queue && (queue.d = 0);
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -57799,12 +57553,192 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module used 'module' so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(5835);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1063);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+
+const core = __nccwpck_require__(9935);
+const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
+// const ReleaseTrack = require("./release_tracks");
+
+async function init() {
+
+
+try {
+
+    //Base setup
+    const serviceAccountJson = core.getInput('serviceAccountJson');
+    const packageName = core.getInput('packageName');
+    const releaseFileDir = core.getInput('releaseFileDir');
+    const releaseTrack = core.getInput('track');
+    const mappingFileDir = core.getInput('mappingFileDir');
+
+
+    const serviceAccountFile = "serviceAccountJson.json";
+    await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
+        if (err) {
+            core.setOutput('Error writing service account credential');
+            console.log('Error');
+        } else {
+            core.setOutput('Successfully written service account credential');
+            console.log('Successfully written');
+        }
+    });
+
+    core.exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
+    const auth = new _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .auth.GoogleAuth */ .I8.GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/androidpublisher']
+    });
+
+    switch (releaseTrack) {
+        // case ReleaseTrack.INTERNAL_SHARING:
+        case 'internalShring':
+            uploadToInternalSharing(auth, packageName, releaseFileDir);
+
+        // case ReleaseTrack.PRODUCTION:
+        case 'production':
+            uploadToProduction(auth, packageName, '', releaseFileDir, mappingFileDir);
+
+    }
+
+
+
+} catch (error) {
+    core.setFailed(error.message);
+}
+}
+
+async function uploadToInternalSharing(auth, packageName, releaseFileDir) {
+    const uploadResult = await androidPublisher.internalappsharingartifacts.uploadapk(
+        {
+            auth: auth,
+            packageName: packageName,
+            media: {
+                mimeType: 'application/vnd.android.package-archive',
+                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
+            }
+        }
+    );
+    const downloadUrl = uploadResult.data.downloadUrl;
+    // if(uploadResult.data.download)
+    console.log(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
+    core.setOutput(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
+}
+
+async function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
+    var versionCode = null;
+
+
+    //Create an Edit
+    const editResult = await androidPublisher.edits.insert({
+        auth: auth,
+        packageName: packageName
+    });
+    core.setOutput(`Edit Id ${editResult.data.id}`);
+    console.log(`Edit Id ${editResult.data.id}`);
+
+    //Upload release files
+    if (releaseFileDir.endsWith('.apk')) {
+        const res = await androidPublisher.edits.apks.upload({
+            auth: auth,
+            packageName: packageName,
+            editId: editResult.id,
+            media: {
+                mimeType: 'application/vnd.android.package-archive',
+                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
+            }
+        });
+        versionCode = res.data.versionCode;
+        console.log(`Version Code ${versionCode}`);
+        core.setOutput(`Version Code ${versionCode}`)
+
+    } else if (releaseFileDir.endsWith('.aab')) {
+        const res = await androidPublisher.edits.bundles.upload({
+            auth: auth,
+            packageName: packageName,
+            editId: editResult.id,
+            media: {
+                mimeType: 'application/octed-stream',
+                body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(releaseFileDir)
+
+            }
+        });
+        versionCode = res.data.versionCode;
+        console.log(`Version Code ${versionCode}`);
+        core.setOutput(`Version Code ${versionCode}`)
+
+    } else Error('invalid release file');
+
+    //upload mapping file
+    const fileUploadResult = await androidPublisher.edits.deobfuscationfiles.upload({
+        auth: auth,
+        packageName: packageName,
+        editId: editResult.id,
+        versionCode: versionCode,
+        deobfuscationFileType: 'proguard',
+        media: {
+            mimeType: 'application/octed-sctream',
+            body: (0,fs__WEBPACK_IMPORTED_MODULE_1__.createReadStream)(mappingFileDir)
+        }
+    });
+
+
+    //add releases to track
+    if (versionCode != null) {
+
+        await androidPublisher.edits.tracks.update(
+            {
+                auth: auth,
+                editId: editResult.id,
+                packageName: packageName,
+                track: 'production',
+                releases: [
+                    {
+                        name: releaseName,
+                        userFraction: 1,
+                        status: 'completed',
+                        inAppUpdatePriority: 5,
+                        releaseNotes: [{
+                            language: 'en-US',
+                            text: 'This is a test release note'
+                        }],
+                        versionCode: ["1.2.0"]
+                    }
+                ]
+            }
+        )
+    } else throw Error('version code is null');
+
+    //finally commit
+    const commitResult = await androidPublisher.edits.commit({
+        auth: auth,
+        editId: editResult.id,
+        packageName: packageName,
+        changesNotSentForReview: true
+    })
+
+}
+
+
+
+
+init();
+
+
+
+
+
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;

@@ -6,6 +6,9 @@ const core = require('@actions/core');
 const androidPublisher = publisherApi.androidpublisher('v3');
 // const ReleaseTrack = require("./release_tracks");
 
+async function init() {
+
+
 try {
 
     //Base setup
@@ -19,8 +22,10 @@ try {
     const serviceAccountFile = "serviceAccountJson.json";
     await fs.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
         if (err) {
+            core.setOutput('Error writing service account credential');
             console.log('Error');
         } else {
+            core.setOutput('Successfully written service account credential');
             console.log('Successfully written');
         }
     });
@@ -46,9 +51,10 @@ try {
 } catch (error) {
     core.setFailed(error.message);
 }
+}
 
-function uploadToInternalSharing(auth, packageName, releaseFileDir) {
-    const uploadResult = androidPublisher.internalappsharingartifacts.uploadapk(
+async function uploadToInternalSharing(auth, packageName, releaseFileDir) {
+    const uploadResult = await androidPublisher.internalappsharingartifacts.uploadapk(
         {
             auth: auth,
             packageName: packageName,
@@ -60,23 +66,25 @@ function uploadToInternalSharing(auth, packageName, releaseFileDir) {
     );
     const downloadUrl = uploadResult.data.downloadUrl;
     // if(uploadResult.data.download)
-    console.log("DATA:\nUpload to internal shring\nURL: $downloadUrl");
+    console.log(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
+    core.setOutput(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
 }
 
-function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
+async function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
     var versionCode = null;
 
 
     //Create an Edit
-    const editResult = androidPublisher.edits.insert({
+    const editResult = await androidPublisher.edits.insert({
         auth: auth,
         packageName: packageName
     });
+    core.setOutput(`Edit Id ${editResult.data.id}`);
     console.log(`Edit Id ${editResult.data.id}`);
 
     //Upload release files
     if (releaseFileDir.endsWith('.apk')) {
-        const res = androidPublisher.edits.apks.upload({
+        const res = await androidPublisher.edits.apks.upload({
             auth: auth,
             packageName: packageName,
             editId: editResult.id,
@@ -87,9 +95,10 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         });
         versionCode = res.data.versionCode;
         console.log(`Version Code ${versionCode}`);
+        core.setOutput(`Version Code ${versionCode}`)
 
     } else if (releaseFileDir.endsWith('.aab')) {
-        const res = androidpublisher.edits.bundles.upload({
+        const res = await androidPublisher.edits.bundles.upload({
             auth: auth,
             packageName: packageName,
             editId: editResult.id,
@@ -101,11 +110,12 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         });
         versionCode = res.data.versionCode;
         console.log(`Version Code ${versionCode}`);
+        core.setOutput(`Version Code ${versionCode}`)
 
     } else Error('invalid release file');
 
     //upload mapping file
-    androidpublisher.edits.deobfuscationfiles.upload({
+    const fileUploadResult = await androidPublisher.edits.deobfuscationfiles.upload({
         auth: auth,
         packageName: packageName,
         editId: editResult.id,
@@ -117,10 +127,11 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         }
     });
 
+
     //add releases to track
     if (versionCode != null) {
 
-        androidpublisher.edits.tracks.update(
+        await androidPublisher.edits.tracks.update(
             {
                 auth: auth,
                 editId: editResult.id,
@@ -144,7 +155,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
     } else throw Error('version code is null');
 
     //finally commit
-    const commitResult = androidPublisher.edits.commit({
+    const commitResult = await androidPublisher.edits.commit({
         auth: auth,
         editId: editResult.id,
         packageName: packageName,
@@ -155,6 +166,8 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
 
 
 
+
+init();
 
 
 
