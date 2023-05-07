@@ -144,7 +144,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
 
                     {
                         name: releaseName,
-                        userFraction: 1,
+                        // userFraction: status == 'completed' ? undefined : userFraction,
                         status: 'completed',
                         inAppUpdatePriority: 5,
                         releaseNotes: [{
