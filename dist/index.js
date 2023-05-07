@@ -57280,7 +57280,6 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 
-
 const core = __nccwpck_require__(9935);
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
 // const ReleaseTrack = require("./release_tracks");
@@ -57347,7 +57346,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
 
 
     //Create an Edit
-    const editResult = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.insert */ .yf.edits.insert({
+    const editResult = androidPublisher.edits.insert({
         auth: auth,
         packageName: packageName
     });
@@ -57366,7 +57365,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
         versionCode = res.data.versionCode;
 
     } else if (releaseFileDir.endsWith('.aab')) {
-        const res = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.bundles.upload */ .yf.edits.bundles.upload({
+        const res = androidpublisher.edits.bundles.upload({
             auth: auth,
             packageName: packageName,
             editId: editResult.id,
@@ -57381,7 +57380,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
     } else Error('invalid release file');
 
     //upload mapping file
-    _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.deobfuscationfiles.upload */ .yf.edits.deobfuscationfiles.upload({
+    androidpublisher.edits.deobfuscationfiles.upload({
         auth: auth,
         packageName: packageName,
         editId: editResult.id,
@@ -57396,7 +57395,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
     //add releases to track
     if (versionCode != null) {
 
-        _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher.edits.tracks.update */ .yf.edits.tracks.update(
+        androidpublisher.edits.tracks.update(
             {
                 auth: auth,
                 editId: editResult.id,

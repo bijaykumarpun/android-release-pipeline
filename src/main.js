@@ -1,5 +1,4 @@
 import * as publisherApi from '@googleapis/androidpublisher';
-import { androidpublisher } from '@googleapis/androidpublisher';
 import { promises as fs, createReadStream } from 'fs';
 
 
@@ -69,7 +68,7 @@ function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mapp
 
 
     //Create an Edit
-    const editResult = androidpublisher.edits.insert({
+    const editResult = androidPublisher.edits.insert({
         auth: auth,
         packageName: packageName
     });
