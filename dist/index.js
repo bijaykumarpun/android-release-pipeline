@@ -57283,7 +57283,7 @@ __nccwpck_require__.r(__webpack_exports__);
 
 const core = __nccwpck_require__(9935);
 const androidPublisher = _googleapis_androidpublisher__WEBPACK_IMPORTED_MODULE_0__/* .androidpublisher */ .yf('v3');
-const ReleaseTrack = __nccwpck_require__(6756);
+// const ReleaseTrack = require("./release_tracks");
 
 try {
 
@@ -57293,6 +57293,7 @@ try {
     const releaseFileDir = core.getInput('releaseFileDir');
     const releaseTrack = core.getInput('track');
     const mappingFileDir = core.getInput('mappingFileDir');
+
 
     const serviceAccountFile = "serviceAccountJson.json";
     await fs__WEBPACK_IMPORTED_MODULE_1__.promises.writeFile(serviceAccountFile, serviceAccountJson, function (err) {
@@ -57309,11 +57310,13 @@ try {
     });
 
     switch (releaseTrack) {
-        case ReleaseTrack.INTERNAL_SHARING:
+        // case ReleaseTrack.INTERNAL_SHARING:
+        case 'internalShring':
             uploadToInternalSharing(auth, packageName, releaseFileDir);
 
-        case ReleaseTrack.PRODUCTION:
-            uploadToProduction(auth, packageName, releaseFileDir, mappingFileDir);
+        // case ReleaseTrack.PRODUCTION:
+        case 'production':
+            uploadToProduction(auth, packageName, '', releaseFileDir, mappingFileDir);
 
     }
 
@@ -57339,7 +57342,7 @@ function uploadToInternalSharing(auth, packageName, releaseFileDir) {
     console.log("DATA:\nUpload to internal shring\nURL: $downloadUrl");
 }
 
-function uploadToProduction(auth, packageName, track, releaseName, releaseFileDir, mappingFileDir) {
+function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
     const versionCode = null;
 
 
@@ -57398,7 +57401,7 @@ function uploadToProduction(auth, packageName, track, releaseName, releaseFileDi
                 auth: auth,
                 editId: editResult.id,
                 packageName: packageName,
-                track: track,
+                track: 'production',
                 releases: [
                     {
                         name: releaseName,
@@ -57436,22 +57439,6 @@ function uploadToProduction(auth, packageName, track, releaseName, releaseFileDi
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
-
-/***/ }),
-
-/***/ 6756:
-/***/ ((__unused_webpack_module, exports) => {
-
-const ReleaseTrack = {
-    INTERNAL_SHARING: 'internalSharing',
-    ALPHA: 'alpha',
-    BETA: 'beta',
-    QA: 'qa',
-    PRODUCTION: 'production'
-
-}
-
-exports.ReleaseTrack = ReleaseTrack;
 
 /***/ }),
 
