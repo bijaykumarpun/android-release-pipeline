@@ -57700,6 +57700,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                 editId: editResult.data.id,
                 packageName: packageName,
                 track: 'production',
+
                 releases: [
                     {
                         name: releaseName,
@@ -57710,7 +57711,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                             language: 'en-US',
                             text: 'This is a test release note'
                         }],
-                        versionCode: ["1.2.0"]
+                        versionCode: [versionCode]
                     }
                 ]
             }
