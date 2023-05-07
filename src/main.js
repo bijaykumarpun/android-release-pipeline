@@ -45,7 +45,7 @@ try {
 }
 
 function uploadToInternalSharing(auth, packageName, releaseFileDir) {
-    androidPublisher.internalappsharingartifacts.uploadapk(
+    const uploadResult = androidPublisher.internalappsharingartifacts.uploadapk(
         {
             auth: auth,
             packageName: packageName,
@@ -55,6 +55,9 @@ function uploadToInternalSharing(auth, packageName, releaseFileDir) {
             }
         }
     );
+    const downloadUrl = uploadResult.data.downloadUrl;
+    // if(uploadResult.data.download)
+    console.log("DATA:\nUpload to internal shring\nURL: $downloadUrl");
 }
 
 function uploadToProduction(auth, packageName, track, releaseName, releaseFileDir, mappingFileDir) {
