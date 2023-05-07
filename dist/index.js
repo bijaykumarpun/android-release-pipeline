@@ -57727,7 +57727,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
         auth: auth,
         editId: editResult.data.id,
         packageName: packageName,
-        changesNotSentForReview: true
+        // changesNotSentForReview: true
     })
 
 }
