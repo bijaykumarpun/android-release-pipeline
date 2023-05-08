@@ -57601,7 +57601,7 @@ try {
 
         // case ReleaseTrack.PRODUCTION:
         case 'production':
-            uploadToProduction(auth, packageName, '', releaseFileDir, mappingFileDir);
+            uploadToProduction(auth, packageName, releaseFileDir, mappingFileDir);
 
     }
 
@@ -57628,7 +57628,7 @@ async function uploadToInternalSharing(auth, packageName, releaseFileDir) {
     core.info(`DATA:\nUpload to internal shring\nURL: ${downloadUrl}`);
 }
 
-async function uploadToProduction(auth, packageName, releaseName, releaseFileDir, mappingFileDir) {
+async function uploadToProduction(auth, packageName, releaseFileDir, mappingFileDir) {
     var versionCode = null;
 
 
@@ -57701,7 +57701,7 @@ async function uploadToProduction(auth, packageName, releaseName, releaseFileDir
                     releases:
 
                     {
-                        name: releaseName,
+                        name: undefined,
                         // userFraction: status == 'completed' ? undefined : userFraction,
                         status: 'completed',
                         inAppUpdatePriority: 5,
