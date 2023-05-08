@@ -1,8 +1,21 @@
 # android-release-pipeline
 
-[ This is a work in progress ]
+GitHub Action to release Android app to PlayStore
 
-### Branches
+### Inputs
+  #### packageName:
+`Application package name`
+ 
+  #### serviceAccountJson:
+`Service account JSON file content`
 
-**development** - for feature development  
-**main** - for production release
+  #### releaseFileDir:
+`Release file directory`
+
+  #### track:
+`Release track`
+
+  #### mappingFileDir:
+`Mapping file directory`
+
+
