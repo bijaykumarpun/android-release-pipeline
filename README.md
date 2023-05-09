@@ -1,21 +1,45 @@
 # android-release-pipeline
+ <div style={display:flex;}>
 
-GitHub Action to release Android app to PlayStore
+<img src="https://img.shields.io/github/languages/code-size/bijaykumarpun/android-release-pipeline"/>
+<!-- <img src="https://img.shields.io/github/downloads/bijaykumarpun/android-release-pipeline/total"/> -->
+<img src="https://img.shields.io/github/last-commit/bijaykumarpun/android-release-pipeline"/>
+</div><br>
 
-### Inputs
-  #### packageName:
-`Application package name`
+> `git push origin PlayStore`
+
+
+ GitHub Action for releasing Android app `straight` to Play Store
  
-  #### serviceAccountJson:
-`Service account JSON file content`
 
-  #### releaseFileDir:
-`Release file directory`
 
-  #### track:
-`Release track`
+  
 
-  #### mappingFileDir:
-`Mapping file directory`
 
+### Required Inputs
+- #### packageName
+    Application package name
+- #### serviceAccountJson
+    Service account JSON file content
+- #### releaseFileDir
+    Release file directory
+- #### track
+    Release track
+- #### mappingFileDir
+    Mapping file directory
+    
+### Usage Example
+```yaml
+  - name: Release to PlayStore
+        uses: BijayKumarPun/android-release-pipeline@v1.0.0-alpha
+        with:
+          serviceAccountJson: ${{vars.SERVICE_ACCOUNT_JSON}}
+          packageName:  ${{vars.PACKAGE_NAME}}
+          releaseFileDir: 'app/build/outputs/bundle/release/app-release.aab'
+          mappingFileDir: 'app/build/outputs/mapping/release/mapping.txt'
+          track: 'production'
+```
+
+### License
+<img src="https://img.shields.io/github/license/bijaykumarpun/android-release-pipeline?style=flat-square"/>
 
