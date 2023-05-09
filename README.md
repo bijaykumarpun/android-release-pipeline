@@ -1,9 +1,9 @@
 # android-release-pipeline
  <div style={display:flex;}>
 
-<img src="https://img.shields.io/github/languages/code-size/bijaykumarpun/android-release-pipeline"/>
+<img src="https://img.shields.io/github/languages/code-size/bijaykumarpun/android-release-pipeline?style=flat-square"/>
 <!-- <img src="https://img.shields.io/github/downloads/bijaykumarpun/android-release-pipeline/total"/> -->
-<img src="https://img.shields.io/github/last-commit/bijaykumarpun/android-release-pipeline"/>
+<img src="https://img.shields.io/github/last-commit/bijaykumarpun/android-release-pipeline?style=flat-square"/>
 </div><br>
 
 > `git push origin PlayStore`
@@ -41,5 +41,6 @@
 ```
 
 ### License
-<img src="https://img.shields.io/github/license/bijaykumarpun/android-release-pipeline?style=flat-square"/>
+<img src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square"/>
+
 
