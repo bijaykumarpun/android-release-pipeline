@@ -33,7 +33,7 @@ try {
 
     switch (releaseTrack) {
         // case ReleaseTrack.INTERNAL_SHARING:
-        case 'internalShring':
+        case 'internalSharing':
             uploadToInternalSharing(auth, packageName, releaseFileDir);
 
         // case ReleaseTrack.PRODUCTION:
